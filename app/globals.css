@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * 🛰️ STYLE_PROTOCOL: GLOBAL_CORE_SYSTEM
+ * VERSION: 2.1.1 (Branding Alignment & Thai Support)
+ * ✅ Theme: ถูกต้อง, ตรวจสอบได้, กระบวนการราบรื่น
+ */
+
+@layer base {
+  :root {
+    /* 🏛️ CORE_VARIABLES (Light Mode) */
+    --background: 40 33% 98%; /* #FAFAF9 - เปลี่ยนตาม Palette ใหม่ */
+    --foreground: 222.2 84% 4.9%; /* #020617 */
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%; /* #020617 */
+    --primary-foreground: 48 96% 52%; /* #FCDE09 Yellow */
+
+    --secondary: 48 96% 52%; /* #FCDE09 Yellow */
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    /* 🛡️ เพิ่มสี Accent สำหรับสถานะ PROCESSING/VERIFYING */
+    --accent: 161 94% 30%; /* #059669 Green */
+    --accent-foreground: 0 0% 100%;
+
+    --border: 222.2 47.4% 11.2%; /* บังคับขอบเข้มเพื่อความถูกต้อง */
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0px; /* ใช้เหลี่ยมมุมเพื่อความดุดันแบบ Industrial */
+  }
+
+  /* 🏛️ TYPOGRAPHY & INTERFACE */
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background font-thai text-foreground antialiased;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-black uppercase italic leading-none tracking-tighter;
+  }
+}
+
+@layer components {
+  /* 🛡️ NEUBRUTALISM_COMPONENTS */
+  .border-heavy {
+    @apply border-2 border-primary shadow-[4px_4px_0px_0px_rgba(2,6,23,1)];
+  }
+
+  .btn-industrial {
+    @apply flex items-center justify-center gap-2 bg-primary px-6 py-3 font-black uppercase italic text-secondary shadow-[6px_6px_0px_0px_rgba(252,222,9,1)] transition-all hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none;
+  }
+
+  /* 📑 AUDIT_STAMP_VISUAL (สำหรับส่วนที่ต้องตรวจสอบย้อนกลับได้) */
+  .audit-badge {
+    @apply border-2 border-dashed border-primary/30 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-primary/60;
+  }
+}
+
+/* 📊 CUSTOM_SCROLLBAR */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+::-webkit-scrollbar-thumb {
+  @apply rounded-none bg-primary;
+}
