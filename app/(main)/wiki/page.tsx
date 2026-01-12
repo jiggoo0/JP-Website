@@ -30,7 +30,7 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params
   const response = await getWikiPostBySlugAction(slug)
-  
+
   if (!response.success || !response.post) return { title: 'Not Found' }
   const post = response.post as WikiPostExtended
 
@@ -59,9 +59,10 @@ export default async function WikiArticlePage({ params }: PageProps) {
   const post = response.post as WikiPostExtended
 
   const displayDate = new Date(post.updatedAt || post.publishedAt || new Date().toISOString())
-  
+
   // ✅ FIXED: จัดการ Author Name ให้แสดงผลใน UI เพื่อเลี่ยง ESLint unused-vars
-  const authorName = typeof post.author === 'object' ? post.author?.name : post.author || 'JP Architect'
+  const authorName =
+    typeof post.author === 'object' ? post.author?.name : post.author || 'JP Architect'
 
   return (
     <div className="min-h-screen bg-[#FAFAF9] font-thai">

@@ -3,8 +3,9 @@ import { Metadata } from 'next'
 
 /**
  * 🛰️ SEO_PROTOCOL: METADATA_GENERATION_ENGINE
- * VERSION: 1.0.0
- * ✅ Strategy: Unified Brand Authority & Dynamic OpenGraph
+ * VERSION: 1.1.0 (Patched for Social Crawler Integrity)
+ * ✅ Strategy: Unified Brand Authority & Absolute Path Resolution
+ * 🛡️ Security: Server-Side URL Validation
  */
 
 interface PageSeoProps {
@@ -22,15 +23,25 @@ export function generateMetadata({
   ogImage = '/images/og-main-shield.jpg',
   noIndex = false,
 }: PageSeoProps): Metadata {
+  // 🌐 BASE_URL RESOLUTION: บังคับใช้ Absolute URL เพื่อให้ Social Media ดึงภาพได้
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jpvisouldocs.online'
   const siteName = 'JP Visuals & Docs'
   const fullTitle = `${title} | ${siteName}`
 
-  const canonical = canonicalUrlRelative ? `${baseUrl}${canonicalUrlRelative}` : baseUrl
+  // สร้าง Full Path สำหรับ Canonical และ Images
+  const canonical = canonicalUrlRelative
+    ? `${baseUrl}${canonicalUrlRelative.startsWith('/') ? '' : '/'}${canonicalUrlRelative}`
+    : baseUrl
+
+  // ตรวจสอบและสร้าง Full URL สำหรับ OG Image (สำคัญมากสำหรับ Facebook)
+  const fullOgImageUrl = ogImage.startsWith('http')
+    ? ogImage
+    : `${baseUrl}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`
 
   return {
     title: fullTitle,
     description: description,
+    metadataBase: new URL(baseUrl), // กำหนดฐานเพื่อรองรับการประมวลผล Metadata ภายใน Next.js
     alternates: {
       canonical: canonical,
     },
@@ -52,10 +63,10 @@ export function generateMetadata({
       siteName: siteName,
       images: [
         {
-          url: ogImage,
+          url: fullOgImageUrl,
           width: 1200,
           height: 630,
-          alt: `Official Archive - ${title}`,
+          alt: `JP VisualDocs - ${title}`,
         },
       ],
       locale: 'th_TH',
@@ -65,7 +76,7 @@ export function generateMetadata({
       card: 'summary_large_image',
       title: fullTitle,
       description: description,
-      images: [ogImage],
+      images: [fullOgImageUrl],
       creator: '@jpvisuals',
     },
     icons: {
@@ -73,9 +84,9 @@ export function generateMetadata({
       shortcut: '/favicon.ico',
       apple: '/apple-touch-icon.png',
     },
-    // 🛡️ SECURITY_EXTENSIONS
+    // 🛡️ SECURITY_VERIFICATION
     verification: {
-      google: 'google-site-verification-id', // ใส่ ID จาก Search Console
+      google: 'google-site-verification-id', // กรุณาเปลี่ยนเป็น ID ของระบบจริง
     },
   }
 }

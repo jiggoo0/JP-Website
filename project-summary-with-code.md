@@ -1,6 +1,6 @@
 # 📑 รายงานสรุปโปรเจกต์และบริบท AI (Full Context)
 
-_สร้างเมื่อ: 2026-01-12 17:33:04_
+_สร้างเมื่อ: 2026-01-12 20:18:36_
 
 > **Status:** Fresh Scan | รวมข้อมูลวิเคราะห์ Route & Code
 
@@ -16,23 +16,23 @@ Route (app)                                 Size  First Load JS
 ┌ ○ /                                      135 B         174 kB
 ├ ○ /_not-found                            146 B         102 kB
 ├ ƒ /api/verify/[id]                       146 B         102 kB
-├ ○ /contact                             3.99 kB         125 kB
+├ ○ /contact                             3.98 kB         125 kB
 ├ ○ /legal/privacy                         146 B         102 kB
 ├ ○ /legal/refund                          146 B         102 kB
 ├ ○ /legal/terms                           146 B         102 kB
 ├ ○ /manifest.webmanifest                  146 B         102 kB
-├ ƒ /pass/[id]                           2.82 kB         153 kB
+├ ƒ /pass/[id]                           1.97 kB         153 kB
 ├ ○ /robots.txt                            146 B         102 kB
 ├ ○ /security                              146 B         102 kB
 ├ ○ /sitemap.xml                           146 B         102 kB
 ├ ○ /verify                              3.36 kB         127 kB
 ├ ƒ /verify/[id]                         3.34 kB         127 kB
-├ ○ /wiki                                11.6 kB         125 kB
-└ ƒ /wiki/[slug]                         1.68 kB         115 kB
+├ ○ /wiki                                  849 B         115 kB
+└ ƒ /wiki/[slug]                           849 B         115 kB
 + First Load JS shared by all             102 kB
   ├ chunks/184-1ade366ae9681126.js       45.6 kB
   ├ chunks/73ff4069-0d76bd41846f2242.js  54.2 kB
-  └ other shared chunks (total)          1.93 kB
+  └ other shared chunks (total)          1.92 kB
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
 ````
@@ -42,8 +42,8 @@ Route (app)                                 Size  First Load JS
 ## 📊 2. สถิติไฟล์แบ่งตามนามสกุล
 ```text
      43 tsx
-     18 ts
-      6 jpg
+     19 ts
+      8 jpg
       4 sh
       3 png
       1 svg
@@ -146,12 +146,15 @@ Route (app)                                 Size  First Load JS
 📂 public
   📂 images
     📂 wiki
-      📄 visa-verification-guide.jpg
       📄 imm-system.jpg
       📄 finance-srv.jpg
       📄 card-replication.jpg
       📄 doc-reconstruct.jpg
+      📄 business-loan-profile.jpg
+      📄 reputation-removal.jpg
     📄 verification-shield.svg
+    📂 avatars
+      📄 admin-icon.jpg
   📄 favicon.ico
   📄 apple-touch-icon.png
   📄 og-image.jpg
@@ -165,6 +168,7 @@ Route (app)                                 Size  First Load JS
     📄 immigration.ts
     📄 documentation.ts
     📄 systems.ts
+    📄 reputation.ts
 📂 config
 ```
 
@@ -336,7 +340,7 @@ const content = fs.readFileSync(file, 'utf-8')
 ````markdown
 # 🚀 Pre-deploy Inspection Report
 
-Generated at: 2026-01-12 17:26:17
+Generated at: 2026-01-12 19:38:11
 Branch: main
 
 ## 🔐 1. Environment Check
@@ -366,23 +370,23 @@ Route (app)                                 Size  First Load JS
 ┌ ○ /                                      135 B         174 kB
 ├ ○ /_not-found                            146 B         102 kB
 ├ ƒ /api/verify/[id]                       146 B         102 kB
-├ ○ /contact                             3.99 kB         125 kB
+├ ○ /contact                             3.98 kB         125 kB
 ├ ○ /legal/privacy                         146 B         102 kB
 ├ ○ /legal/refund                          146 B         102 kB
 ├ ○ /legal/terms                           146 B         102 kB
 ├ ○ /manifest.webmanifest                  146 B         102 kB
-├ ƒ /pass/[id]                           2.82 kB         153 kB
+├ ƒ /pass/[id]                           1.97 kB         153 kB
 ├ ○ /robots.txt                            146 B         102 kB
 ├ ○ /security                              146 B         102 kB
 ├ ○ /sitemap.xml                           146 B         102 kB
 ├ ○ /verify                              3.36 kB         127 kB
 ├ ƒ /verify/[id]                         3.34 kB         127 kB
-├ ○ /wiki                                11.6 kB         125 kB
-└ ƒ /wiki/[slug]                         1.68 kB         115 kB
+├ ○ /wiki                                  849 B         115 kB
+└ ƒ /wiki/[slug]                           849 B         115 kB
 + First Load JS shared by all             102 kB
   ├ chunks/184-1ade366ae9681126.js       45.6 kB
   ├ chunks/73ff4069-0d76bd41846f2242.js  54.2 kB
-  └ other shared chunks (total)          1.93 kB
+  └ other shared chunks (total)          1.92 kB
 
 
 ○  (Static)   prerendered as static content
@@ -549,79 +553,95 @@ All protocols verified: Lint passed, Types safe, and Build successful. Deploymen
 
 ```typescript
 /** @format */
-import type { Metadata, Viewport } from 'next'
-// 🛰️ นำเข้าฟอนต์จากศูนย์กลางเพื่อให้ตรวจสอบได้ง่าย
+import type { Metadata } from 'next'
 import { inter, thaiFont, monoFont } from '@/lib/fonts'
 import './globals.css'
 import { Providers } from './providers'
 import { cn } from '@/lib/utils'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { wikiData, generateSEOMeta, type WikiPost } from '@/data/wikiData'
 
-/**
- * 🛰️ SYSTEM_PROTOCOL: ROOT_ARCHITECTURE
- * VERSION: 1.6.3 (Domain Migration & Website Alignment)
- * ✅ Strategy: ปรับปรุงข้อมูลพื้นฐานให้ตรงกับโดเมนตรวจสอบเอกสาร (Website)
- */
-
-export const metadata: Metadata = {
-  title: {
-    default: 'JP Visual Docs | ระบบตรวจสอบและคลังความรู้เอกสาร',
-    template: '%s | JP Visual Docs',
-  },
-  description:
-    'แพลตฟอร์มศูนย์กลางการตรวจสอบเอกสารและคลังความรู้สำคัญ มาตรฐานระบบ Protocol v3.3.1 สำหรับ jpvisouldocs.website',
-  openGraph: {
-    type: 'website',
-    locale: 'th_TH',
-    url: 'https://jpvisouldocs.website', // 🌐 อัปเดต URL ใหม่
-    siteName: 'JP Visual Docs Website',
-    images: [
-      {
-        url: '/og-image.jpg', // 📸 อัปเดตตามไฟล์ที่มีในโครงสร้าง (og-image.jpg)
-        width: 1200,
-        height: 630,
-        alt: 'JP Visual Docs Verification Portal',
-      },
-    ],
-  },
-  // 🛰️ ตรวจสอบค่า NEXT_PUBLIC_SITE_URL ใน .env ให้เป็น https://jpvisouldocs.website
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://jpvisouldocs.website'),
-  icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon.png', type: 'image/png' },
-    ],
-    apple: '/apple-touch-icon.png',
-  },
-  manifest: '/manifest.webmanifest',
-}
-
-export const viewport: Viewport = {
-  themeColor: '#020617',
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-}
-
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface RootLayoutProps {
   children: React.ReactNode
-}>) {
+  postSlug?: string // สำหรับ dynamic wiki page
+}
+
+export default function RootLayout({ children, postSlug }: RootLayoutProps) {
+  // ดึงข้อมูล post สำหรับ SEO
+  const post: WikiPost | null = postSlug ? wikiData.find((p) => p.slug === postSlug) || null : null
+  const seo = post ? generateSEOMeta(post) : null
+
+  const metadata: Metadata = {
+    title: seo?.title || 'JP Visual Docs | ระบบตรวจสอบและคลังความรู้',
+    description:
+      seo?.description ||
+      'แพลตฟอร์มศูนย์กลางการตรวจสอบเอกสารและคลังความรู้สำคัญ มาตรฐานระบบ Protocol v3.3.1 สำหรับ jpvisouldocs.website',
+    openGraph: {
+      type: 'website',
+      locale: 'th_TH',
+      url: seo?.url || 'https://jpvisouldocs.website',
+      siteName: 'JP Visual Docs Website',
+      images: [
+        {
+          url: seo?.image || '/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: seo?.title || 'JP Visual Docs Verification Portal',
+        },
+      ],
+    },
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://jpvisouldocs.website'),
+    icons: {
+      icon: [
+        { url: '/favicon.ico', sizes: 'any' },
+        { url: '/icon.png', type: 'image/png' },
+      ],
+      apple: '/apple-touch-icon.png',
+    },
+    manifest: '/manifest.webmanifest',
+  }
+
   return (
     <html lang="th" suppressHydrationWarning className="scroll-smooth">
+      <head>
+        {/* JSON-LD Structured Data สำหรับ SEO */}
+        {post && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'Article',
+                headline: post.title,
+                description: post.description || '',
+                image: post.image || '/og-image.jpg',
+                author: {
+                  '@type': 'Person',
+                  name:
+                    typeof post.author === 'string' ? post.author : post.author?.name || 'Unknown',
+                },
+                datePublished: post.publishedAt,
+                dateModified: post.updatedAt,
+                mainEntityOfPage: seo?.url,
+              }),
+            }}
+          />
+        )}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{metadata.title as string}</title>
+        <meta name="description" content={metadata.description || ''} />
+        <link rel="canonical" href={seo?.url || 'https://jpvisouldocs.website'} />
+      </head>
       <body
         className={cn(
           'min-h-screen bg-[#FAFAF9] font-thai antialiased selection:bg-[#FCDE09] selection:text-[#020617]',
-          // 🏛️ ผสมผสานตัวแปรฟอนต์ทั้งหมดเข้าด้วยกัน
           inter.variable,
           thaiFont.variable,
           monoFont.variable,
         )}
       >
         <Providers>
-          {/* ♿ Skip to Content เพื่อมาตรฐาน WCAG AA */}
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:fixed focus:z-[100] focus:bg-[#FCDE09] focus:p-4 focus:font-black focus:uppercase focus:italic focus:text-[#020617]"
