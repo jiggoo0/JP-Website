@@ -75,14 +75,14 @@ export const TableOfContent: React.FC<TOCProps> = ({ contentId }) => {
 
   return (
     <nav
-      className="sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto border-4 border-[#020617] bg-white p-6 shadow-[4px_4px_0px_0px_#020617] font-thai"
+      className="sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto border-4 border-[#020617] bg-white p-6 font-thai shadow-[4px_4px_0px_0px_#020617]"
       aria-label="สารบัญบทความ"
     >
       <div className="mb-6 flex items-center gap-2 border-b-2 border-[#020617] pb-3">
         <div className="bg-[#020617] p-1 text-[#FCDE09]">
           <ListIcon size={14} />
         </div>
-        <h3 className="text-[11px] font-black uppercase italic tracking-[0.2em] text-[#020617] font-sans">
+        <h3 className="font-sans text-[11px] font-black uppercase italic tracking-[0.2em] text-[#020617]">
           Article_Index
         </h3>
       </div>
@@ -95,7 +95,7 @@ export const TableOfContent: React.FC<TOCProps> = ({ contentId }) => {
               'border-l-4 pl-3 transition-all duration-300',
               heading.level === 3
                 ? 'ml-4 text-[12px]'
-                : 'text-[13px] font-black uppercase tracking-tight font-sans',
+                : 'font-sans text-[13px] font-black uppercase tracking-tight',
               activeId === heading.id
                 ? 'translate-x-1 border-[#FCDE09] text-[#020617]'
                 : 'border-slate-100 text-slate-400 hover:border-slate-300 hover:text-slate-600',
@@ -108,7 +108,7 @@ export const TableOfContent: React.FC<TOCProps> = ({ contentId }) => {
                 // 🚀 SMOOTH_NAVIGATION: กระบวนการเลื่อนหน้าที่ถูกต้องและราบรื่น
                 const target = document.getElementById(heading.id)
                 if (target) {
-                  const offset = 100 
+                  const offset = 100
                   const bodyRect = document.body.getBoundingClientRect().top
                   const elementRect = target.getBoundingClientRect().top
                   const elementPosition = elementRect - bodyRect
@@ -126,7 +126,7 @@ export const TableOfContent: React.FC<TOCProps> = ({ contentId }) => {
                 <ChevronRight
                   size={12}
                   className={cn(
-                    'transition-transform shrink-0',
+                    'shrink-0 transition-transform',
                     activeId === heading.id
                       ? 'translate-x-0 opacity-100'
                       : '-translate-x-2 opacity-0',

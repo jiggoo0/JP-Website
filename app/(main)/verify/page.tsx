@@ -11,22 +11,20 @@ import { toast } from 'sonner'
 
 /**
  * 🛰️ VIEW_PROTOCOL: VERIFICATION_SEARCH_PORTAL_V2
- * VERSION: 1.3.0 (Refactored_Integrity)
+ * VERSION: 1.3.2 (Clean_Format_Final)
  * ✅ Strategy: Optimized Input Handling & Predictive UI
  * 📂 Location: app/(main)/verify/page.tsx
  */
 
 export default function VerifySearchPage() {
-  const [ticketId, setTicketId] = useState('')
+  const [ticketId, setTicketId] = useState<string>('')
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
 
-  // 🛡️ ACTION_HANDLER: จัดการการส่งข้อมูลอย่างแม่นยำ
   const handleSearch = useCallback(
     (e?: React.FormEvent) => {
       e?.preventDefault()
 
-      // 🔍 CLEANING_PROTOCOL: ปรับฟอร์แมตข้อมูลให้ถูกต้องก่อนเข้าสู่ระบบ
       const cleanId = ticketId.trim().toUpperCase()
 
       if (!cleanId) {
@@ -36,20 +34,22 @@ export default function VerifySearchPage() {
         return
       }
 
-      // 🚀 TRANSITION_ENGINE: เปลี่ยนหน้าอย่างราบรื่นโดยไม่หยุดชะงัก
-      startTransition(() => {
-        toast.promise(
-          new Promise((resolve) => {
-            router.push(`/verify/${cleanId}`)
-            // จำลองการเตรียมข้อมูลเบื้องต้น
-            setTimeout(resolve, 800)
-          }),
-          {
-            loading: 'กำลังเชื่อมต่อฐานข้อมูลกลาง...',
-            success: 'เข้าถึงรหัสตรวจสอบสำเร็จ',
-            error: 'การเชื่อมต่อขัดข้อง โปรดลองใหม่',
-          },
-        )
+      startTransition(async () => {
+        try {
+          await toast.promise(
+            new Promise((resolve) => {
+              router.push(`/pass/${cleanId}`)
+              setTimeout(resolve, 800)
+            }),
+            {
+              loading: 'กำลังเชื่อมต่อฐานข้อมูลกลาง...',
+              success: 'พบข้อมูลรหัสตรวจสอบ',
+              error: 'การเชื่อมต่อขัดข้อง โปรดลองใหม่',
+            },
+          )
+        } catch (error) {
+          console.error('SEARCH_ERROR:', error)
+        }
       })
     },
     [ticketId, router],
@@ -58,7 +58,6 @@ export default function VerifySearchPage() {
   return (
     <div className="flex min-h-[90vh] items-center justify-center bg-[#FAFAF9] px-4 font-thai">
       <Card className="relative w-full max-w-xl overflow-hidden rounded-none border-[6px] border-[#020617] bg-white p-10 shadow-[24px_24px_0px_0px_#FCDE09] md:p-14">
-        {/* 📟 INTERFACE_SCANNER: อนิเมชั่นเส้นสแกนเพื่อความไว้วางใจได้ */}
         {isPending && (
           <div className="pointer-events-none absolute inset-0 z-50 overflow-hidden">
             <div className="absolute left-0 top-0 h-1 w-full animate-[scan_2s_linear_infinite] bg-[#FCDE09] shadow-[0_0_15px_#FCDE09]" />
@@ -66,10 +65,20 @@ export default function VerifySearchPage() {
           </div>
         )}
 
-        {/* 🏛️ PORTAL_HEADER */}
+        <style jsx global>{`
+          @keyframes scan {
+            0% {
+              top: 0;
+            }
+            100% {
+              top: 100%;
+            }
+          }
+        `}</style>
+
         <div className="mb-12 text-center">
           <div className="relative mb-6 inline-block">
-            <div className="shadow-[8px_8px_0px_0px_#020617]/20 bg-[#020617] p-6 text-[#FCDE09]">
+            <div className="bg-[#020617] p-6 text-[#FCDE09] shadow-[8px_8px_0px_0px_rgba(2,6,23,0.2)]">
               <Fingerprint
                 size={52}
                 strokeWidth={1.5}
@@ -91,7 +100,6 @@ export default function VerifySearchPage() {
           </p>
         </div>
 
-        {/* 🔍 SEARCH_INTERFACE */}
         <form onSubmit={handleSearch} className="space-y-10">
           <div className="space-y-4">
             <div className="flex items-center justify-between px-1">
@@ -113,7 +121,7 @@ export default function VerifySearchPage() {
                 onChange={(e) => setTicketId(e.target.value)}
                 placeholder="กรอกรหัส (เช่น JPV-001245)"
                 disabled={isPending}
-                className="h-24 rounded-none border-[4px] border-[#020617] pl-16 font-mono text-3xl transition-all placeholder:italic placeholder:text-slate-100 focus-visible:bg-slate-50 focus-visible:ring-0"
+                className="h-24 rounded-none border-[4px] border-[#020617] pl-16 font-mono text-3xl transition-all placeholder:italic placeholder:text-slate-200 focus-visible:bg-slate-50 focus-visible:ring-0"
               />
               {!isPending && ticketId && (
                 <button
@@ -129,7 +137,7 @@ export default function VerifySearchPage() {
           <Button
             type="submit"
             disabled={isPending || !ticketId}
-            className="group h-24 w-full rounded-none bg-[#020617] text-2xl font-black uppercase italic tracking-[0.2em] text-[#FCDE09] transition-all hover:bg-[#1E293B] disabled:opacity-10"
+            className="group h-24 w-full rounded-none bg-[#020617] text-2xl font-black uppercase italic tracking-[0.2em] text-[#FCDE09] transition-all hover:bg-[#1E293B] disabled:opacity-30"
           >
             {isPending ? (
               <div className="flex items-center gap-4">
@@ -144,7 +152,6 @@ export default function VerifySearchPage() {
           </Button>
         </form>
 
-        {/* 📜 COMPLIANCE_STAMP */}
         <div className="relative mt-14 border-t-2 border-[#020617]/10 pt-10">
           <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white px-4 text-[10px] font-black uppercase italic text-slate-300">
             Integrity_Guarantee
@@ -158,11 +165,10 @@ export default function VerifySearchPage() {
                 Security_Compliance_Notice
               </p>
               <p className="text-[10px] font-medium uppercase leading-relaxed tracking-tighter text-slate-400">
-                ทุกการเข้าถึงข้อมูลจะถูกเข้ารหัสระดับ{' '}
-                <span className="font-bold text-[#020617]">SHA-256</span>
-                และบันทึก{' '}
-                <span className="underline decoration-[#FCDE09] decoration-2">Audit_Log</span>
-                ลงในฐานข้อมูลกลางเพื่อป้องกันการแอบอ้างสิทธิ์
+                ข้อมูลจะถูกตรวจสอบผ่านระบบเข้ารหัสความปลอดภัยสูง
+                และทุกการเข้าถึงจะถูกบันทึกเพื่อความ{' '}
+                <span className="font-bold text-[#020617]">ถูกต้อง</span> และ{' '}
+                <span className="underline decoration-[#FCDE09] decoration-2">ตรวจสอบได้</span> จริง
               </p>
             </div>
           </div>

@@ -10,32 +10,33 @@ import Footer from '@/components/Footer'
 
 /**
  * 🛰️ SYSTEM_PROTOCOL: ROOT_ARCHITECTURE
- * VERSION: 1.6.2 (Font Integration & Accessibility Patch)
- * ✅ Strategy: ทุกขั้นตอนตรวจสอบได้ เพื่อความไว้วางใจได้ของระบบ
+ * VERSION: 1.6.3 (Domain Migration & Website Alignment)
+ * ✅ Strategy: ปรับปรุงข้อมูลพื้นฐานให้ตรงกับโดเมนตรวจสอบเอกสาร (Website)
  */
 
 export const metadata: Metadata = {
   title: {
-    default: 'JP Visual & Docs | ตรวจสอบเอกสารอย่างถูกต้อง',
-    template: '%s | JP Visual & Docs',
+    default: 'JP Visual Docs | ระบบตรวจสอบและคลังความรู้เอกสาร',
+    template: '%s | JP Visual Docs',
   },
   description:
-    'แพลตฟอร์มจัดการและตรวจสอบเอกสารสำคัญอย่างรวดเร็วและไว้วางใจได้ มาตรฐานระบบ Protocol v3.3.1',
+    'แพลตฟอร์มศูนย์กลางการตรวจสอบเอกสารและคลังความรู้สำคัญ มาตรฐานระบบ Protocol v3.3.1 สำหรับ jpvisouldocs.website',
   openGraph: {
     type: 'website',
     locale: 'th_TH',
-    url: 'https://jpvisuals.online',
-    siteName: 'JP Visual & Docs',
+    url: 'https://jpvisouldocs.website', // 🌐 อัปเดต URL ใหม่
+    siteName: 'JP Visual Docs Website',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.jpg', // 📸 อัปเดตตามไฟล์ที่มีในโครงสร้าง (og-image.jpg)
         width: 1200,
         height: 630,
-        alt: 'JP Visual & Docs Official Portal',
+        alt: 'JP Visual Docs Verification Portal',
       },
     ],
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://jpvisuals.online'),
+  // 🛰️ ตรวจสอบค่า NEXT_PUBLIC_SITE_URL ใน .env ให้เป็น https://jpvisouldocs.website
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://jpvisouldocs.website'),
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },

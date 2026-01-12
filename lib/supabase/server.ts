@@ -31,7 +31,7 @@ export async function createClient() {
         setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
+              cookieStore.set(name, value, options),
             )
           } catch {
             // ✅ FIXED: ลบตัวแปร _error ที่ไม่ได้ใช้งานออกเพื่อแก้ไข Lint Error (22:20)
@@ -40,6 +40,6 @@ export async function createClient() {
           }
         },
       },
-    }
+    },
   )
 }

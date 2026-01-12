@@ -1,5 +1,5 @@
 # 📑 รายงานสรุปโปรเจกต์และบริบท AI (Full Context)
-_สร้างเมื่อ: 2026-01-12 13:57:05_
+_สร้างเมื่อ: 2026-01-12 17:33:04_
 > **Status:** Fresh Scan | รวมข้อมูลวิเคราะห์ Route & Code
 
 ## 🔴 1. สถานะสุขภาพโปรเจกต์ล่าสุด
@@ -10,17 +10,20 @@ _สร้างเมื่อ: 2026-01-12 13:57:05_
 ```text
 Route (app)                                 Size  First Load JS
 ┌ ○ /                                      135 B         174 kB
-├ ○ /_not-found                            140 B         102 kB
+├ ○ /_not-found                            146 B         102 kB
+├ ƒ /api/verify/[id]                       146 B         102 kB
 ├ ○ /contact                             3.99 kB         125 kB
-├ ○ /manifest.webmanifest                  140 B         102 kB
+├ ○ /legal/privacy                         146 B         102 kB
+├ ○ /legal/refund                          146 B         102 kB
+├ ○ /legal/terms                           146 B         102 kB
+├ ○ /manifest.webmanifest                  146 B         102 kB
 ├ ƒ /pass/[id]                           2.82 kB         153 kB
-├ ○ /privacy                               140 B         102 kB
-├ ○ /robots.txt                            140 B         102 kB
-├ ○ /sitemap.xml                           140 B         102 kB
-├ ○ /terms                                 140 B         102 kB
-├ ○ /verify                              3.77 kB         124 kB
-├ ƒ /verify/[id]                         1.68 kB         115 kB
-├ ○ /wiki                                10.6 kB         124 kB
+├ ○ /robots.txt                            146 B         102 kB
+├ ○ /security                              146 B         102 kB
+├ ○ /sitemap.xml                           146 B         102 kB
+├ ○ /verify                              3.36 kB         127 kB
+├ ƒ /verify/[id]                         3.34 kB         127 kB
+├ ○ /wiki                                11.6 kB         125 kB
 └ ƒ /wiki/[slug]                         1.68 kB         115 kB
 + First Load JS shared by all             102 kB
   ├ chunks/184-1ade366ae9681126.js       45.6 kB
@@ -33,11 +36,12 @@ Route (app)                                 Size  First Load JS
 
 ## 📊 2. สถิติไฟล์แบ่งตามนามสกุล
 ```text
-     41 tsx
-     13 ts
+     43 tsx
+     18 ts
+      6 jpg
       4 sh
+      3 png
       1 svg
-      1 jpg
       1 ico
       1 css
 ```
@@ -45,12 +49,10 @@ Route (app)                                 Size  First Load JS
 ## 📁 3. โครงสร้างโฟลเดอร์ (Tree)
 ```text
 📂 app
-  📂 (legal)
-    📂 privacy
-      📄 page.tsx
-    📂 terms
-      📄 page.tsx
-    📄 layout.tsx
+  📂 api
+    📂 verify
+      📂 [id]
+        📄 route.ts
   📂 (main)
     📂 verify
       📂 [id]
@@ -65,6 +67,8 @@ Route (app)                                 Size  First Load JS
     📄 layout.tsx
     📄 loading.tsx
     📄 page.tsx
+    📂 security
+      📄 page.tsx
   📂 actions
     📄 verify-actions.ts
     📄 wiki-actions.ts
@@ -78,6 +82,14 @@ Route (app)                                 Size  First Load JS
   📄 providers.tsx
   📄 robots.ts
   📄 sitemap.ts
+  📂 legal
+    📂 privacy
+      📄 page.tsx
+    📂 terms
+      📄 page.tsx
+    📄 layout.tsx
+    📂 refund
+      📄 page.tsx
 📂 components
   📂 verify
     📄 SearchBar.tsx
@@ -129,11 +141,24 @@ Route (app)                                 Size  First Load JS
   📂 images
     📂 wiki
       📄 visa-verification-guide.jpg
+      📄 imm-system.jpg
+      📄 finance-srv.jpg
+      📄 card-replication.jpg
+      📄 doc-reconstruct.jpg
     📄 verification-shield.svg
   📄 favicon.ico
+  📄 apple-touch-icon.png
+  📄 og-image.jpg
+  📄 icon-512x512.png
+  📄 icon-192x192.png
 📂 data
   📄 wikiData.ts
   📄 faqData.ts
+  📂 wiki
+    📄 finance.ts
+    📄 immigration.ts
+    📄 documentation.ts
+    📄 systems.ts
 📂 config
 ```
 
@@ -300,8 +325,8 @@ const content = fs.readFileSync(file, 'utf-8')
 #### 🔍 Path: pre-deploy-report.md
 ```markdown
 # 🚀 Pre-deploy Inspection Report
-Generated at: 2026-01-12 13:53:04
-Branch: N/A
+Generated at: 2026-01-12 17:26:17
+Branch: main
 
 ## 🔐 1. Environment Check
 ✅ Status: .env file exists and verified.
@@ -317,17 +342,20 @@ Branch: N/A
 ```text
 Route (app)                                 Size  First Load JS
 ┌ ○ /                                      135 B         174 kB
-├ ○ /_not-found                            140 B         102 kB
+├ ○ /_not-found                            146 B         102 kB
+├ ƒ /api/verify/[id]                       146 B         102 kB
 ├ ○ /contact                             3.99 kB         125 kB
-├ ○ /manifest.webmanifest                  140 B         102 kB
+├ ○ /legal/privacy                         146 B         102 kB
+├ ○ /legal/refund                          146 B         102 kB
+├ ○ /legal/terms                           146 B         102 kB
+├ ○ /manifest.webmanifest                  146 B         102 kB
 ├ ƒ /pass/[id]                           2.82 kB         153 kB
-├ ○ /privacy                               140 B         102 kB
-├ ○ /robots.txt                            140 B         102 kB
-├ ○ /sitemap.xml                           140 B         102 kB
-├ ○ /terms                                 140 B         102 kB
-├ ○ /verify                              3.77 kB         124 kB
-├ ƒ /verify/[id]                         1.68 kB         115 kB
-├ ○ /wiki                                10.6 kB         124 kB
+├ ○ /robots.txt                            146 B         102 kB
+├ ○ /security                              146 B         102 kB
+├ ○ /sitemap.xml                           146 B         102 kB
+├ ○ /verify                              3.36 kB         127 kB
+├ ƒ /verify/[id]                         3.34 kB         127 kB
+├ ○ /wiki                                11.6 kB         125 kB
 └ ƒ /wiki/[slug]                         1.68 kB         115 kB
 + First Load JS shared by all             102 kB
   ├ chunks/184-1ade366ae9681126.js       45.6 kB
@@ -355,14 +383,15 @@ All protocols verified: Lint passed, Types safe, and Build successful. Deploymen
 
 /**
  * 🛰️ STYLE_PROTOCOL: GLOBAL_CORE_SYSTEM
- * VERSION: 2.1.1 (Branding Alignment & Thai Support)
+ * VERSION: 2.2.0 (Branding Alignment, Thai Support & Print Optimized)
  * ✅ Theme: ถูกต้อง, ตรวจสอบได้, กระบวนการราบรื่น
+ * ✅ Strategy: Neubrutalism Design กับการจัดการ Output สำหรับงานเอกสาร
  */
 
 @layer base {
   :root {
-    /* 🏛️ CORE_VARIABLES (Light Mode) */
-    --background: 40 33% 98%; /* #FAFAF9 - เปลี่ยนตาม Palette ใหม่ */
+    /* 🏛️ CORE_VARIABLES (Light Mode) - JP Palette */
+    --background: 40 33% 98%; /* #FAFAF9 */
     --foreground: 222.2 84% 4.9%; /* #020617 */
 
     --card: 0 0% 100%;
@@ -374,15 +403,15 @@ All protocols verified: Lint passed, Types safe, and Build successful. Deploymen
     --secondary: 48 96% 52%; /* #FCDE09 Yellow */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    /* 🛡️ เพิ่มสี Accent สำหรับสถานะ PROCESSING/VERIFYING */
+    /* 🛡️ Accent สำหรับสถานะ VERIFIED/SUCCESS */
     --accent: 161 94% 30%; /* #059669 Green */
     --accent-foreground: 0 0% 100%;
 
-    --border: 222.2 47.4% 11.2%; /* บังคับขอบเข้มเพื่อความถูกต้อง */
+    --border: 222.2 47.4% 11.2%; /* บังคับขอบเข้มเพื่อความชัดเจน */
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0px; /* ใช้เหลี่ยมมุมเพื่อความดุดันแบบ Industrial */
+    --radius: 0px; /* Neubrutalism: ใช้เหลี่ยมมุมเพื่อความดุดัน */
   }
 
   /* 🏛️ TYPOGRAPHY & INTERFACE */
@@ -410,16 +439,69 @@ All protocols verified: Lint passed, Types safe, and Build successful. Deploymen
 @layer components {
   /* 🛡️ NEUBRUTALISM_COMPONENTS */
   .border-heavy {
-    @apply border-2 border-primary shadow-[4px_4px_0px_0px_rgba(2,6,23,1)];
+    @apply border-4 border-primary shadow-[8px_8px_0px_0px_rgba(2,6,23,0.1)];
   }
 
   .btn-industrial {
-    @apply flex items-center justify-center gap-2 bg-primary px-6 py-3 font-black uppercase italic text-secondary shadow-[6px_6px_0px_0px_rgba(252,222,9,1)] transition-all hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none;
+    @apply flex items-center justify-center gap-2 bg-primary px-6 py-3 font-black uppercase italic text-secondary shadow-[6px_6px_0px_0px_rgba(252,222,9,1)] transition-all hover:opacity-90 active:translate-x-[3px] active:translate-y-[3px] active:shadow-none;
   }
 
-  /* 📑 AUDIT_STAMP_VISUAL (สำหรับส่วนที่ต้องตรวจสอบย้อนกลับได้) */
+  /* 📑 AUDIT_STAMP_VISUAL */
   .audit-badge {
     @apply border-2 border-dashed border-primary/30 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-primary/60;
+  }
+}
+
+/* 🖨️ PRINT_PROTOCOL: OPTIMIZED_DOCUMENT_OUTPUT */
+@media print {
+  /* ซ่อนปุ่มนำทาง ส่วนประกอบ UI และพื้นหลังที่ไม่จำเป็น */
+  nav,
+  button,
+  .no-print,
+  footer:not(.article-footer),
+  a[href='/verify'] {
+    display: none !important;
+  }
+
+  /* ปรับพื้นหลังให้เป็นสีขาวสะอาดตาเพื่อประหยัดหมึก */
+  body {
+    background: white !important;
+    padding: 0 !important;
+    color: black !important;
+  }
+
+  .min-h-screen {
+    min-height: auto !important;
+    padding: 20px !important;
+  }
+
+  /* รักษาความชัดเจนของขอบและเส้นแบ่ง */
+  .border-4 {
+    border-width: 2px !important;
+    border-color: #000 !important;
+  }
+
+  .border-x-4,
+  .border-b-4 {
+    border-width: 0 2px 2px 2px !important;
+    border-color: #000 !important;
+  }
+
+  /* บังคับให้พิมพ์สีพื้นหลัง (เช่น Header สีดำ) ให้ยังคงความถูกต้อง */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* จัดตำแหน่งให้อยู่กลางหน้ากระดาษ A4 */
+  .mx-auto {
+    margin: 0 auto !important;
+    max-width: 100% !important;
+  }
+
+  /* ปิด Watermark เพื่อให้ข้อมูลอ่านง่ายที่สุด */
+  .pointer-events-none {
+    display: none !important;
   }
 }
 
@@ -450,32 +532,33 @@ import Footer from '@/components/Footer'
 
 /**
  * 🛰️ SYSTEM_PROTOCOL: ROOT_ARCHITECTURE
- * VERSION: 1.6.2 (Font Integration & Accessibility Patch)
- * ✅ Strategy: ทุกขั้นตอนตรวจสอบได้ เพื่อความไว้วางใจได้ของระบบ
+ * VERSION: 1.6.3 (Domain Migration & Website Alignment)
+ * ✅ Strategy: ปรับปรุงข้อมูลพื้นฐานให้ตรงกับโดเมนตรวจสอบเอกสาร (Website)
  */
 
 export const metadata: Metadata = {
   title: {
-    default: 'JP Visual & Docs | ตรวจสอบเอกสารอย่างถูกต้อง',
-    template: '%s | JP Visual & Docs',
+    default: 'JP Visual Docs | ระบบตรวจสอบและคลังความรู้เอกสาร',
+    template: '%s | JP Visual Docs',
   },
   description:
-    'แพลตฟอร์มจัดการและตรวจสอบเอกสารสำคัญอย่างรวดเร็วและไว้วางใจได้ มาตรฐานระบบ Protocol v3.3.1',
+    'แพลตฟอร์มศูนย์กลางการตรวจสอบเอกสารและคลังความรู้สำคัญ มาตรฐานระบบ Protocol v3.3.1 สำหรับ jpvisouldocs.website',
   openGraph: {
     type: 'website',
     locale: 'th_TH',
-    url: 'https://jpvisuals.online',
-    siteName: 'JP Visual & Docs',
+    url: 'https://jpvisouldocs.website', // 🌐 อัปเดต URL ใหม่
+    siteName: 'JP Visual Docs Website',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.jpg', // 📸 อัปเดตตามไฟล์ที่มีในโครงสร้าง (og-image.jpg)
         width: 1200,
         height: 630,
-        alt: 'JP Visual & Docs Official Portal',
+        alt: 'JP Visual Docs Verification Portal',
       },
     ],
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://jpvisuals.online'),
+  // 🛰️ ตรวจสอบค่า NEXT_PUBLIC_SITE_URL ใน .env ให้เป็น https://jpvisouldocs.website
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://jpvisouldocs.website'),
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -869,7 +952,7 @@ export default config
 #### 🔍 Path: package.json
 ```json
 {
-  "name": "jp-website",
+  "name": "JP-Website",
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
@@ -971,12 +1054,11 @@ export default nextConfig
 
 #### 🔍 Path: .env
 ```text
-# .env.local
-
 # = "********"
 # Supabase Client (Public - ใช้ใน Browser / Next.js Client)
 # = "********"
 
+# 🌐 เปลี่ยนจาก .online เป็น .website เพื่อให้สอดคล้องกับโดเมนหลักของโปรเจกต์นี้
 NEXT_PUBLIC_BASE_URL= "********"
 
 NEXT_PUBLIC_SUPABASE_URL= "********"
@@ -991,7 +1073,7 @@ SUPABASE_SERVICE_ROLE_KEY= "********"
 SUPABASE_JWT_SECRET= "********"
 
 # = "********"
-# NextAuth (ถ้าใช้)
+# NextAuth (ถ้ามีการใช้งาน SSO ข้ามโดเมน)
 # = "********"
 NEXTAUTH_URL= "********"
 NEXTAUTH_SECRET= "********"
@@ -1014,18 +1096,20 @@ POSTGRES_DATABASE= "********"
 # Application Settings (FIXED & REQUIRED for new code)
 # = "********"
 
-# 1. รหัสลับสำหรับตรวจสอบสิทธิ์ Admin ใน Middleware (Cookie Check)
+# 1. รหัสลับสำหรับตรวจสอบสิทธิ์ Admin (รักษาค่าเดิมไว้เพื่อความซิงค์ข้ามระบบ)
 ADMIN_SECRET_ID_TOKEN= "********"
 
-# 2. API Key สำหรับการออกเอกสาร (POST /api/issue-document)
+# 2. API Key สำหรับการออกเอกสาร
 ADMIN_API_KEY= "********"
 
-# 3. ชื่อ Bucket สำหรับการจัดเก็บไฟล์ PDF (ต้องตรงกับชื่อใน Supabase Storage)
+# 3. ชื่อ Bucket สำหรับจัดเก็บไฟล์ (อ้างอิง Bucket เดียวกันเพื่อให้ดึงไฟล์มาแสดงผลได้)
 SUPABASE_BUCKET_NAME= "********"
 
 # = "********"
-# Resend Email Service
+# Site Specific Settings
 # = "********"
+# ใช้สำหรับการ Generate Sitemap และ Metadata
+NEXT_PUBLIC_SITE_URL= "********"
 RESEND_API_KEY= "********"
 NEXT_PUBLIC_APP_URL= "********"
 ```

@@ -53,7 +53,7 @@ export const SearchBar = ({
 
     setIsSearching(true)
     const finalId = query.trim().toUpperCase()
-    
+
     // 🛰️ NAVIGATION: ส่งผู้ใช้ไปหน้าตรวจสอบตัวตนที่เกี่ยวข้อง
     router.push(`/verify/${finalId}`)
   }

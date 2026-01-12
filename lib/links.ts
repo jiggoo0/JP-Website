@@ -3,16 +3,18 @@ import {
   ShieldCheck,
   BookOpen,
   MessageSquare,
-  LayoutDashboard,
   Search,
   LucideIcon,
+  MessageCircle, // สำหรับ Line
+  Facebook,
+  ExternalLink,
+  Zap, // สำหรับงานด่วน Fast Track
 } from 'lucide-react'
 
 /**
  * 🛰️ SYSTEM_PROTOCOL: NAVIGATION_CENTRAL_REGISTRY
- * VERSION: 1.0.1 (Strict_Type_Fixed)
- * ✅ ROLE: จัดการเส้นทางเดินข้อมูล (Routing) แบบรวมศูนย์
- * ✅ STRATEGY: ถูกต้อง, ตรวจสอบได้, กระบวนการราบรื่น
+ * VERSION: 1.1.1 (Lint_Cleaned)
+ * ✅ ROLE: จัดการเส้นทางเดินข้อมูลและการเชื่อมต่อภายนอก
  * 📂 Location: lib/links.ts
  */
 
@@ -20,51 +22,88 @@ export interface NavLink {
   label: string
   href: string
   description?: string
-  // ✅ FIXED: เปลี่ยนจาก any เป็น LucideIcon เพื่อความปลอดภัยของข้อมูล (Fix TS:no-explicit-any)
   icon?: LucideIcon
-  status?: 'ACTIVE' | 'MAINTENANCE' | 'EXPERIMENTAL'
+  status?: 'ACTIVE' | 'MAINTENANCE' | 'EXPERIMENTAL' | 'VIP_ONLY'
 }
 
 /**
  * 🌐 MAIN_NAVIGATION: เมนูหลักสำหรับผู้ใช้งานทั่วไป (Public_Access)
- * บันทึก: ข้อมูลชุดนี้ได้รับการตรวจสอบความถูกต้องแล้ว
  */
 export const mainNavLinks: NavLink[] = [
   {
-    label: 'ตรวจสอบเอกสาร',
+    label: 'ตรวจสอบสถานะ',
     href: '/verify',
     icon: ShieldCheck,
-    description: 'Verify_Identity & Document_Check',
+    description: 'Verify_Identity & Live_System_Check',
+    status: 'ACTIVE',
   },
   {
-    label: 'คลังความรู้',
+    label: 'คลังบริการสากล',
     href: '/wiki',
     icon: BookOpen,
-    description: 'Knowledge_Archive_v3.3.1',
+    description: 'Service_Archive_v3.3.1',
+    status: 'ACTIVE',
   },
   {
-    label: 'ติดต่อเจ้าหน้าที่',
+    label: 'ศูนย์ควบคุม VIP',
     href: '/contact',
     icon: MessageSquare,
-    description: 'Support_Center_Inquiry',
+    description: 'High_Priority_Inquiry',
+    status: 'ACTIVE',
   },
 ]
 
 /**
- * 📑 COMPLIANCE_LINKS: ลิงก์สำหรับเอกสารทางกฎหมายและนโยบายความปลอดภัย
- * คุณค่า: ไว้วางใจได้, โปร่งใส, ตรวจสอบย้อนกลับได้
+ * 🔐 SOCIAL_REGISTRY: ช่องทางติดต่อเข้ารหัส (Encrypted_Communication)
+ */
+export const socialLinks = {
+  lineId: '@462fqtfc',
+  links: [
+    {
+      label: 'Line Official',
+      href: 'https://lin.ee/ZYTzBaIE',
+      icon: MessageCircle,
+      description: 'Main_Support_Channel',
+    },
+    {
+      label: 'Facebook Page',
+      href: 'https://www.facebook.com/profile.php?id=61575050976562',
+      icon: Facebook,
+      description: 'Official_Updates',
+    },
+    {
+      label: 'Messenger',
+      href: 'https://m.me/61575050976562',
+      icon: ExternalLink,
+      description: 'Direct_Consultation',
+    },
+  ],
+}
+
+/**
+ * 📑 COMPLIANCE_LINKS: ลิงก์นโยบายและความปลอดภัย
  */
 export const footerLinks: NavLink[] = [
-  { label: 'Privacy_Policy', href: '/legal/privacy' },
-  { label: 'Terms_Of_Service', href: '/legal/terms' },
-  { label: 'Audit_Log_Public', href: '/audit' },
-  { label: 'Security_Disclosure', href: '/security' },
+  { label: 'Privacy_Protection', href: '/legal/privacy' },
+  { label: 'System_Terms', href: '/legal/terms' },
+  { label: 'Nodes_Status', href: '/status' },
+  { label: 'Security_Policy', href: '/security' },
 ]
 
 /**
- * 📡 FALLBACK_ACTIONS: ลิงก์ด่วนสำหรับระบบกู้คืนสถานะ (System_Recovery)
+ * ⚡ FAST_TRACK_ACTIONS: ลิงก์ด่วนสำหรับงานเร่งด่วน (Urgent_Cases)
  */
-export const fallbackActions: NavLink[] = [
-  { label: 'Try_Again', href: '/verify', icon: Search },
-  { label: 'Back_to_HQ', href: '/', icon: LayoutDashboard },
+export const quickActions: NavLink[] = [
+  {
+    label: 'ส่งคำขอแก้ไขด่วน',
+    href: 'https://lin.ee/ZYTzBaIE',
+    icon: Zap,
+    description: 'SLA_1-3_Hours_Process',
+  },
+  {
+    label: 'ตรวจสอบสถานะ PNR',
+    href: '/verify',
+    icon: Search,
+    description: 'Global_Database_Search',
+  },
 ]

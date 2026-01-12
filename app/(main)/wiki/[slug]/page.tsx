@@ -35,7 +35,10 @@ export default async function WikiArticlePage({ params }: { params: Promise<{ sl
             href="/wiki"
             className="group inline-flex items-center text-[10px] font-black uppercase tracking-widest text-slate-400 transition-colors hover:text-[#020617]"
           >
-            <ChevronLeft size={14} className="mr-1 transition-transform group-hover:-translate-x-1" />
+            <ChevronLeft
+              size={14}
+              className="mr-1 transition-transform group-hover:-translate-x-1"
+            />
             Back_to_Repository
           </Link>
         </div>
@@ -45,7 +48,7 @@ export default async function WikiArticlePage({ params }: { params: Promise<{ sl
         {/* 🏛️ ARTICLE_HEADER: ข้อมูลทางบรรณานุกรมของเอกสาร */}
         <header className="mb-12 space-y-6">
           <div className="flex flex-wrap items-center gap-3">
-            <Badge className="rounded-none border-2 border-[#020617] bg-[#FCDE09] px-3 py-1 font-black uppercase text-[#020617] font-sans">
+            <Badge className="rounded-none border-2 border-[#020617] bg-[#FCDE09] px-3 py-1 font-sans font-black uppercase text-[#020617]">
               {post.category}
             </Badge>
             <span className="font-mono text-[10px] font-bold text-slate-400">
@@ -70,12 +73,8 @@ export default async function WikiArticlePage({ params }: { params: Promise<{ sl
         </header>
 
         {/* 📄 ARTICLE_BODY: เนื้อหาหลักที่ผ่านการกรองความถูกต้อง */}
-        <main 
-          className="prose prose-slate max-w-none 
-          prose-headings:font-black prose-headings:italic prose-headings:tracking-tighter prose-headings:text-[#020617]
-          prose-p:leading-relaxed prose-p:text-slate-600
-          prose-strong:text-[#020617]
-          prose-img:border-4 prose-img:border-[#020617]"
+        <main
+          className="prose prose-slate max-w-none prose-headings:font-black prose-headings:italic prose-headings:tracking-tighter prose-headings:text-[#020617] prose-p:leading-relaxed prose-p:text-slate-600 prose-strong:text-[#020617] prose-img:border-4 prose-img:border-[#020617]"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
@@ -87,7 +86,8 @@ export default async function WikiArticlePage({ params }: { params: Promise<{ sl
             Official_Document_Protocol_v3.3.1
           </p>
           <p className="mt-2 text-xs italic text-slate-400">
-            ข้อมูลนี้ถูกจัดทำขึ้นเพื่อเป็นแนวทางเท่านั้น กรุณาตรวจสอบการอัปเดตล่าสุดจากหน่วยงานที่เกี่ยวข้อง
+            ข้อมูลนี้ถูกจัดทำขึ้นเพื่อเป็นแนวทางเท่านั้น
+            กรุณาตรวจสอบการอัปเดตล่าสุดจากหน่วยงานที่เกี่ยวข้อง
           </p>
         </footer>
       </article>

@@ -66,7 +66,9 @@ export async function getWikiPostsAction(): Promise<WikiResponse<WikiPost[]>> {
 /**
  * 📥 ACTION: ดึงข้อมูลบทความรายชิ้นตาม Slug
  */
-export async function getWikiPostBySlugAction(slug: string): Promise<WikiResponse<WikiPost | null>> {
+export async function getWikiPostBySlugAction(
+  slug: string,
+): Promise<WikiResponse<WikiPost | null>> {
   try {
     const post = wikiData.find((p) => p.slug === slug)
     if (!post) throw new Error('NOT_FOUND')

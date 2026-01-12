@@ -28,10 +28,10 @@ export default function NotFound() {
 
         {/* 📄 ERROR_MESSAGE: สื่อสารอย่างมืออาชีพและสุภาพ */}
         <div className="mb-12 space-y-4">
-          <h1 className="text-5xl font-black uppercase italic tracking-tighter text-[#020617] md:text-7xl font-sans">
+          <h1 className="font-sans text-5xl font-black uppercase italic tracking-tighter text-[#020617] md:text-7xl">
             404_NOT_FOUND
           </h1>
-          <div className="inline-block bg-[#020617] px-4 py-1.5 text-[10px] font-black uppercase italic tracking-[0.3em] text-[#FCDE09] font-sans">
+          <div className="inline-block bg-[#020617] px-4 py-1.5 font-sans text-[10px] font-black uppercase italic tracking-[0.3em] text-[#FCDE09]">
             Entry_Invalid_or_Expunged
           </div>
           <div className="mx-auto max-w-md space-y-4">
@@ -51,7 +51,7 @@ export default function NotFound() {
           <Button
             asChild
             variant="outline"
-            className="h-14 rounded-none border-2 border-[#020617] font-black uppercase italic transition-all hover:bg-slate-50 active:translate-y-0.5 font-sans"
+            className="h-14 rounded-none border-2 border-[#020617] font-sans font-black uppercase italic transition-all hover:bg-slate-50 active:translate-y-0.5"
           >
             <Link href="/verify">
               <RefreshCcw size={18} className="mr-2" />
@@ -61,7 +61,7 @@ export default function NotFound() {
 
           <Button
             asChild
-            className="h-14 rounded-none bg-[#020617] font-black uppercase italic text-[#FCDE09] shadow-[4px_4px_0px_0px_rgba(252,222,9,1)] transition-all hover:bg-[#1E293B] active:translate-y-0.5 active:shadow-none font-sans"
+            className="h-14 rounded-none bg-[#020617] font-sans font-black uppercase italic text-[#FCDE09] shadow-[4px_4px_0px_0px_rgba(252,222,9,1)] transition-all hover:bg-[#1E293B] active:translate-y-0.5 active:shadow-none"
           >
             <Link href="/">
               <ArrowLeft size={18} className="mr-2" />
@@ -78,7 +78,7 @@ export default function NotFound() {
             </p>
             <div className="flex items-center gap-4">
               <span className="h-1 w-8 bg-[#FCDE09]" />
-              <span className="text-[9px] font-black uppercase italic text-slate-300 font-sans">
+              <span className="font-sans text-[9px] font-black uppercase italic text-slate-300">
                 Security_Node: JP-WEB-SEC-01
               </span>
               <span className="h-1 w-8 bg-[#020617]" />

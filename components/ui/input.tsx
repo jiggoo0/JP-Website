@@ -23,21 +23,19 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           // 🏛️ BASE_STYLES: ดีไซน์เหลี่ยมคม (Sharp-Edge) สะท้อนความน่าเชื่อถือแบบอุตสาหกรรม
           'flex h-12 w-full rounded-none border-2 bg-white px-4 py-2 text-base transition-all duration-200',
           // 📄 TYPOGRAPHY: ผสมผสาน Font-Sans สำหรับทั่วไป และ Font-Mono สำหรับรหัส/ID
-          'font-sans font-medium tracking-tight text-[#020617] placeholder:italic placeholder:font-normal placeholder:text-slate-400',
-          
+          'font-sans font-medium tracking-tight text-[#020617] placeholder:font-normal placeholder:italic placeholder:text-slate-400',
+
           // 📂 FILE_STYLING: ปรับแต่งปุ่มเลือกไฟล์ให้มีความเป็นทางการ (Official Look)
-          'file:mr-4 file:h-full file:border-0 file:bg-[#020617] file:px-4 file:text-[10px] file:font-black file:uppercase file:italic file:text-[#FCDE09] file:cursor-pointer',
-          
+          'file:mr-4 file:h-full file:cursor-pointer file:border-0 file:bg-[#020617] file:px-4 file:text-[10px] file:font-black file:uppercase file:italic file:text-[#FCDE09]',
+
           // ⚡ INTERACTION: การตอบสนองเมื่อผู้ใช้โต้ตอบ (Focus & Hover)
-          'focus-visible:border-[#FCDE09] focus-visible:outline-none focus-visible:ring-0 hover:border-slate-400',
-          
+          'hover:border-slate-400 focus-visible:border-[#FCDE09] focus-visible:outline-none focus-visible:ring-0',
+
           // 🚫 STATE_MANAGEMENT: การจัดการสถานะ Error และ Disabled
-          error 
-            ? 'border-red-500 bg-red-50/30 focus-visible:border-red-600' 
-            : 'border-[#020617]',
-          'disabled:cursor-not-allowed disabled:bg-slate-100 disabled:opacity-50 disabled:border-slate-200',
-          
-          className
+          error ? 'border-red-500 bg-red-50/30 focus-visible:border-red-600' : 'border-[#020617]',
+          'disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:opacity-50',
+
+          className,
         )}
         ref={ref}
         {...props}

@@ -1,59 +1,51 @@
-/** @format */
-
-/**
- * 🛰️ SYSTEM_PROTOCOL: WIKI_DATA_ARCHITECTURE
- * VERSION: 1.2.0
- * ✅ Strategy: Type-Safe Schema & Content Integrity
+/** * JP Visual Docs - Wiki Data Master Configuration
+ * รวมศูนย์ข้อมูลบริการทั้งหมดจาก Registry UID: SRV-FIN, SRV-IMM, SRV-DOC, SRV-SYS
  */
 
-export type WikiCategory = 'Verification' | 'Legal' | 'Guidelines' | 'Technical' | 'General'
+import { financeData } from './wiki/finance'
+import { immigrationData } from './wiki/immigration'
+import { documentationData } from './wiki/documentation'
+import { systemsData } from './wiki/systems'
+
+// 1. กำหนดโครงสร้างข้อมูลพื้นฐาน (Interface)
+export type WikiCategory =
+  | 'Verification'
+  | 'Legal'
+  | 'Privacy'
+  | 'Guidelines'
+  | 'Technical'
+  | 'Security'
+  | 'Systems'
 
 export interface WikiPost {
-  id: string // เพิ่ม ID สำหรับการทำ Reference
+  id: string
   slug: string
   title: string
   description: string
-  content: string // รองรับ Markdown
+  content: string
   category: WikiCategory
   author: {
     name: string
     role: string
     avatar?: string
   }
-  tags: string[] // เพิ่ม Tags เพื่อการทำ SEO และ Filtering
+  tags: string[]
   publishedAt: string
-  updatedAt: string // เพิ่มวันที่อัปเดตล่าสุด
+  updatedAt: string
   image: string
-  isDraft: boolean // เพิ่มสถานะการเขียน
+  isDraft: boolean
+  visibility: 'public' | 'restricted' | 'private'
 }
 
+// 2. รวบรวมข้อมูลจาก 4 ไฟล์หลักเพื่อ Export ไปยังหน้าเว็บไซต์
 export const wikiData: WikiPost[] = [
-  {
-    id: 'wp_001',
-    slug: 'how-to-verify-visa-documents',
-    title: 'วิธีตรวจสอบความถูกต้องของเอกสารวีซ่า',
-    description: 'คู่มือขั้นตอนการตรวจสอบความถูกต้องของเอกสารวีซ่าผ่านมาตรฐาน JP Protocol v3.3.1',
-    content: `
-## ขั้นตอนการตรวจสอบเอกสาร (Verification Steps)
-
-การตรวจสอบความถูกต้องของเอกสารวีซ่าเป็นกระบวนการที่สำคัญในการยืนยันตัวตน...
-
-1. **ตรวจสอบรหัสผ่าน (Access Code):** ใช้รหัสผ่านที่ได้รับจากระบบ...
-2. **สแกนรหัสผ่าน QR:** ระบบจะแสดงผลสถานะทันที...
-3. **ตรวจสอบตราประทับ:** ตราประทับดิจิทัลต้องอยู่ในสถานะ Valid...
-
-> **หมายเหตุ:** หากพบข้อมูลไม่ตรงกัน โปรดติดต่อฝ่ายสนับสนุนทันที
-    `,
-    category: 'Verification',
-    author: {
-      name: 'JP Architect Team',
-      role: 'System Administrator',
-    },
-    tags: ['Visa', 'Audit', 'Security', 'Tutorial'],
-    publishedAt: '2026-01-12T11:47:54+07:00',
-    updatedAt: '2026-01-12T11:47:54+07:00',
-    image: '/images/wiki/visa-verification-guide.jpg',
-    isDraft: false,
-  },
-  // ➕ เพิ่มโพสต์อื่นๆ ได้ที่นี่
+  ...financeData, // งานกู้/สินเชื่อ (SRV-FIN-01)
+  ...immigrationData, // งานตั๋ว/วีซ่า/ตม. (SRV-IMM-01, SRV-IMM-02)
+  ...documentationData, // งานแก้เอกสาร/สร้างหน้าเว็บตรวจสอบ (SRV-DOC-01, SRV-DOC-02)
+  ...systemsData, // งานผลิตบัตรพลาสติกทุกแบบ/Vifily (SRV-INF-01, SRV-SYS-01)
 ]
+
+// ฟังก์ชันช่วยดึงข้อมูล (Optional)
+export const getPostBySlug = (slug: string) => wikiData.find((post) => post.slug === slug)
+export const getPostsByCategory = (cat: WikiCategory) =>
+  wikiData.filter((post) => post.category === cat)

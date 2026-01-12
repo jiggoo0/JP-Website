@@ -4,14 +4,15 @@
 
 /**
  * 🛰️ STYLE_PROTOCOL: GLOBAL_CORE_SYSTEM
- * VERSION: 2.1.1 (Branding Alignment & Thai Support)
+ * VERSION: 2.2.0 (Branding Alignment, Thai Support & Print Optimized)
  * ✅ Theme: ถูกต้อง, ตรวจสอบได้, กระบวนการราบรื่น
+ * ✅ Strategy: Neubrutalism Design กับการจัดการ Output สำหรับงานเอกสาร
  */
 
 @layer base {
   :root {
-    /* 🏛️ CORE_VARIABLES (Light Mode) */
-    --background: 40 33% 98%; /* #FAFAF9 - เปลี่ยนตาม Palette ใหม่ */
+    /* 🏛️ CORE_VARIABLES (Light Mode) - JP Palette */
+    --background: 40 33% 98%; /* #FAFAF9 */
     --foreground: 222.2 84% 4.9%; /* #020617 */
 
     --card: 0 0% 100%;
@@ -23,15 +24,15 @@
     --secondary: 48 96% 52%; /* #FCDE09 Yellow */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    /* 🛡️ เพิ่มสี Accent สำหรับสถานะ PROCESSING/VERIFYING */
+    /* 🛡️ Accent สำหรับสถานะ VERIFIED/SUCCESS */
     --accent: 161 94% 30%; /* #059669 Green */
     --accent-foreground: 0 0% 100%;
 
-    --border: 222.2 47.4% 11.2%; /* บังคับขอบเข้มเพื่อความถูกต้อง */
+    --border: 222.2 47.4% 11.2%; /* บังคับขอบเข้มเพื่อความชัดเจน */
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0px; /* ใช้เหลี่ยมมุมเพื่อความดุดันแบบ Industrial */
+    --radius: 0px; /* Neubrutalism: ใช้เหลี่ยมมุมเพื่อความดุดัน */
   }
 
   /* 🏛️ TYPOGRAPHY & INTERFACE */
@@ -59,16 +60,69 @@
 @layer components {
   /* 🛡️ NEUBRUTALISM_COMPONENTS */
   .border-heavy {
-    @apply border-2 border-primary shadow-[4px_4px_0px_0px_rgba(2,6,23,1)];
+    @apply border-4 border-primary shadow-[8px_8px_0px_0px_rgba(2,6,23,0.1)];
   }
 
   .btn-industrial {
-    @apply flex items-center justify-center gap-2 bg-primary px-6 py-3 font-black uppercase italic text-secondary shadow-[6px_6px_0px_0px_rgba(252,222,9,1)] transition-all hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none;
+    @apply flex items-center justify-center gap-2 bg-primary px-6 py-3 font-black uppercase italic text-secondary shadow-[6px_6px_0px_0px_rgba(252,222,9,1)] transition-all hover:opacity-90 active:translate-x-[3px] active:translate-y-[3px] active:shadow-none;
   }
 
-  /* 📑 AUDIT_STAMP_VISUAL (สำหรับส่วนที่ต้องตรวจสอบย้อนกลับได้) */
+  /* 📑 AUDIT_STAMP_VISUAL */
   .audit-badge {
     @apply border-2 border-dashed border-primary/30 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-primary/60;
+  }
+}
+
+/* 🖨️ PRINT_PROTOCOL: OPTIMIZED_DOCUMENT_OUTPUT */
+@media print {
+  /* ซ่อนปุ่มนำทาง ส่วนประกอบ UI และพื้นหลังที่ไม่จำเป็น */
+  nav,
+  button,
+  .no-print,
+  footer:not(.article-footer),
+  a[href='/verify'] {
+    display: none !important;
+  }
+
+  /* ปรับพื้นหลังให้เป็นสีขาวสะอาดตาเพื่อประหยัดหมึก */
+  body {
+    background: white !important;
+    padding: 0 !important;
+    color: black !important;
+  }
+
+  .min-h-screen {
+    min-height: auto !important;
+    padding: 20px !important;
+  }
+
+  /* รักษาความชัดเจนของขอบและเส้นแบ่ง */
+  .border-4 {
+    border-width: 2px !important;
+    border-color: #000 !important;
+  }
+
+  .border-x-4,
+  .border-b-4 {
+    border-width: 0 2px 2px 2px !important;
+    border-color: #000 !important;
+  }
+
+  /* บังคับให้พิมพ์สีพื้นหลัง (เช่น Header สีดำ) ให้ยังคงความถูกต้อง */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* จัดตำแหน่งให้อยู่กลางหน้ากระดาษ A4 */
+  .mx-auto {
+    margin: 0 auto !important;
+    max-width: 100% !important;
+  }
+
+  /* ปิด Watermark เพื่อให้ข้อมูลอ่านง่ายที่สุด */
+  .pointer-events-none {
+    display: none !important;
   }
 }
 

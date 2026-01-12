@@ -1,181 +1,187 @@
 /** @format */
+'use client'
 
-import { notFound } from 'next/navigation'
-import { verifyDocumentAction } from '@/app/actions/verify-actions'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
-import { ShieldCheck, User, Calendar, FileText, Activity, ArrowLeft, Hash } from 'lucide-react'
-import Link from 'next/link'
-import { Metadata } from 'next'
+import React, { useState, useTransition, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Card } from '@/components/ui/card'
+import { ShieldCheck, Search, AlertCircle, Loader2, ArrowRight, Fingerprint } from 'lucide-react'
+import { toast } from 'sonner'
 
 /**
- * 🛰️ VIEW_PROTOCOL: DOCUMENT_INTEGRITY_REPORT
- * VERSION: 1.2.4 (Stability_Refactor)
- * ✅ ROLE: แสดงผลการตรวจสอบเอกสารราย Case พร้อมสถานะความปลอดภัย
- * ✅ STRATEGY: Zero_Ambiguity, Type_Safe_Conditionals, High_Contrast_UI
- * 📂 Location: app/(main)/verify/[id]/page.tsx
+ * 🛰️ VIEW_PROTOCOL: VERIFICATION_SEARCH_PORTAL_V2
+ * VERSION: 1.3.2 (Clean_Format_Final)
+ * ✅ Strategy: Optimized Input Handling & Predictive UI
+ * 📂 Location: app/(main)/verify/page.tsx
  */
 
-interface VerifyDetailPageProps {
-  params: Promise<{ id: string }>
-}
+export default function VerifySearchPage() {
+  const [ticketId, setTicketId] = useState<string>('')
+  const [isPending, startTransition] = useTransition()
+  const router = useRouter()
 
-export async function generateMetadata({ params }: VerifyDetailPageProps): Promise<Metadata> {
-  const { id } = await params
-  return {
-    title: `Verification Report: ${id} | JP VisualDocs`,
-    description: `รายงานการตรวจสอบเอกสารรหัส ${id} ผ่านระบบ Audit มาตรฐานสากล`,
-  }
-}
+  // 🛡️ ACTION_HANDLER: จัดการการส่งข้อมูลไปยังเส้นทางที่กำหนด
+  const handleSearch = useCallback(
+    (e?: React.FormEvent) => {
+      e?.preventDefault()
 
-export default async function VerifyDetailPage({ params }: VerifyDetailPageProps) {
-  const { id } = await params
-  const response = await verifyDocumentAction(id)
+      // 🔍 CLEANING_PROTOCOL: ปรับฟอร์แมตข้อมูล (ตัวพิมพ์ใหญ่และตัดช่องว่าง)
+      const cleanId = ticketId.trim().toUpperCase()
 
-  // 🛡️ SECURITY_CHECK: ป้องกันการเข้าถึงข้อมูลที่ไม่มีอยู่จริง
-  if (!response.success || !response.documentData) {
-    return notFound()
-  }
+      if (!cleanId) {
+        toast.error('IDENTIFICATION_REQUIRED', {
+          description: 'โปรดระบุรหัสเอกสารเพื่อเริ่มกระบวนการตรวจสอบ',
+        })
+        return
+      }
 
-  const { documentData } = response
-
-  // 🛠️ FIXED: แก้ไขปัญหา TS2367 โดยใช้สถานะที่เป็นไปได้จริงจาก VerificationStatus Enum
-  // ตรวจสอบว่าสถานะเป็น 'verified' (ตัวเล็ก) ตามมาตรฐานของระบบ
-  const isVerified = documentData.status.toLowerCase() === 'verified'
+      // 🚀 TRANSITION_ENGINE: นำทางไปยังหน้า /pass/[id] พร้อมแสดงสถานะ Loading
+      startTransition(async () => {
+        try {
+          await toast.promise(
+            new Promise((resolve) => {
+              router.push(`/pass/${cleanId}`)
+              // จำลองความล่าช้าเล็กน้อยเพื่อให้ UI แสดงผล Transition ที่สวยงาม
+              setTimeout(resolve, 800)
+            }),
+            {
+              loading: 'กำลังเชื่อมต่อฐานข้อมูลกลาง...',
+              success: 'พบข้อมูลรหัสตรวจสอบ',
+              error: 'การเชื่อมต่อขัดข้อง โปรดลองใหม่',
+            },
+          )
+        } catch (error) {
+          console.error('SEARCH_ERROR:', error)
+        }
+      })
+    },
+    [ticketId, router],
+  )
 
   return (
-    <div className="min-h-screen bg-[#FAFAF9] px-4 py-16 font-thai sm:px-6">
-      <div className="mx-auto max-w-3xl">
-        {/* 🧭 NAVIGATION: กลับสู่หน้าค้นหา */}
-        <Link
-          href="/verify"
-          className="group mb-10 inline-flex items-center text-[10px] font-black uppercase italic tracking-widest text-slate-400 transition-colors hover:text-[#020617]"
-        >
-          <ArrowLeft size={14} className="mr-2 transition-transform group-hover:-translate-x-1" />
-          Back_to_Search_Portal
-        </Link>
+    <div className="flex min-h-[90vh] items-center justify-center bg-[#FAFAF9] px-4 font-thai">
+      <Card className="relative w-full max-w-xl overflow-hidden rounded-none border-[6px] border-[#020617] bg-white p-10 shadow-[24px_24px_0px_0px_#FCDE09] md:p-14">
+        {/* 📟 INTERFACE_SCANNER: อนิเมชั่นเส้นสแกนขณะประมวลผล */}
+        {isPending && (
+          <div className="pointer-events-none absolute inset-0 z-50 overflow-hidden">
+            <div className="absolute left-0 top-0 h-1 w-full animate-[scan_2s_linear_infinite] bg-[#FCDE09] shadow-[0_0_15px_#FCDE09]" />
+            <div className="absolute inset-0 bg-[#020617]/5 backdrop-blur-[1px]" />
+          </div>
+        )}
 
-        {/* 🎫 HEADER: Identity & Security Status */}
-        <div className="border-4 border-[#020617] bg-[#020617] p-8 text-[#FCDE09] shadow-[8px_8px_0px_0px_rgba(2,6,23,0.1)] md:p-12">
-          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-            <div>
-              <div className="mb-4 flex items-center gap-2">
-                <div className="h-1 w-8 bg-[#FCDE09]" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-70">
-                  Official_Audit_Report
-                </span>
-              </div>
-              <h1 className="text-4xl font-black uppercase italic leading-none tracking-tighter md:text-5xl">
-                Verified_Result
-              </h1>
-              <div className="mt-4 inline-block flex items-center gap-2 bg-white/10 px-3 py-1.5 font-mono text-xs opacity-80">
-                <Hash size={14} />
-                <span>REF_ID: {documentData.ticketId || id.slice(0, 8).toUpperCase()}</span>
-              </div>
+        <style jsx global>{`
+          @keyframes scan {
+            0% {
+              top: 0;
+            }
+            100% {
+              top: 100%;
+            }
+          }
+        `}</style>
+
+        {/* 🏛️ PORTAL_HEADER */}
+        <div className="mb-12 text-center">
+          <div className="relative mb-6 inline-block">
+            <div className="bg-[#020617] p-6 text-[#FCDE09] shadow-[8px_8px_0px_0px_rgba(2,6,23,0.2)]">
+              <Fingerprint
+                size={52}
+                strokeWidth={1.5}
+                className={isPending ? 'animate-pulse' : ''}
+              />
             </div>
-            <div className="bg-[#FCDE09] p-4 text-[#020617] shadow-[4px_4px_0px_0px_#FFFFFF]">
-              <ShieldCheck className="h-12 w-12" />
+            <div className="absolute -right-2 -top-2 border-2 border-[#020617] bg-[#FCDE09] p-1">
+              <ShieldCheck size={18} className="text-[#020617]" />
             </div>
           </div>
+
+          <h1 className="text-5xl font-black uppercase italic leading-none tracking-tighter text-[#020617] md:text-7xl">
+            Audit_Gate
+          </h1>
+          <p className="mt-5 flex items-center justify-center gap-2 text-[11px] font-black uppercase tracking-[0.4em] text-slate-400">
+            <span className="h-[1px] w-8 bg-slate-200" />
+            Centralized_Verification_Node
+            <span className="h-[1px] w-8 bg-slate-200" />
+          </p>
         </div>
 
-        {/* 📄 MAIN_CONTENT: รายละเอียดเอกสาร */}
-        <div className="relative overflow-hidden border-x-4 border-b-4 border-[#020617] bg-white p-8 md:p-12">
-          {/* Watermark Logo เพื่อสร้าง Trust Visual */}
-          <ShieldCheck className="pointer-events-none absolute -bottom-20 -right-20 h-80 w-80 -rotate-12 text-[#FAFAF9]" />
-
-          <div className="relative z-10 space-y-12">
-            <div className="grid gap-12 md:grid-cols-2">
-              <section className="space-y-8">
-                <div>
-                  <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-slate-400">
-                    Subject_Owner
-                  </label>
-                  <div className="flex items-center gap-3">
-                    <div className="border border-slate-100 bg-slate-50 p-2">
-                      <User size={20} className="text-[#020617]" />
-                    </div>
-                    <span className="text-2xl font-black uppercase italic tracking-tight text-[#020617]">
-                      {documentData.owner}
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-slate-400">
-                    Category
-                  </label>
-                  <div className="flex items-center gap-3">
-                    <FileText size={20} className="text-slate-400" />
-                    <span className="font-bold uppercase tracking-tighter text-[#020617]">
-                      {documentData.service}
-                    </span>
-                  </div>
-                </div>
-              </section>
-
-              <section className="space-y-8">
-                <div>
-                  <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-slate-400">
-                    Audit_Status
-                  </label>
-                  <Badge
-                    variant="outline"
-                    className={`rounded-none border-2 px-4 py-2 font-mono text-[10px] font-bold ${
-                      isVerified
-                        ? 'border-green-600 bg-green-50 text-green-600'
-                        : 'border-red-600 bg-red-50 text-red-600'
-                    }`}
-                  >
-                    ● {documentData.status.toUpperCase()}
-                  </Badge>
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-slate-400">
-                    Issued_Date
-                  </label>
-                  <div className="flex items-center gap-3 text-xs font-bold uppercase text-slate-600">
-                    <Calendar size={18} className="text-slate-300" />
-                    {documentData.issuedAt 
-                      ? new Date(documentData.issuedAt).toLocaleDateString('th-TH', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })
-                      : 'N/A'}
-                  </div>
-                </div>
-              </section>
+        {/* 🔍 SEARCH_INTERFACE */}
+        <form onSubmit={handleSearch} className="space-y-10">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between px-1">
+              <label className="text-[11px] font-black uppercase tracking-widest text-[#020617]">
+                Document_Reference_Code
+              </label>
+              <div className="flex items-center gap-1.5 border border-emerald-100 bg-emerald-50 px-2 py-0.5 font-mono text-[9px] font-bold uppercase text-emerald-600">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                System_Live
+              </div>
             </div>
 
-            <Separator className="h-[2px] bg-slate-100" />
+            <div className="group relative">
+              <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 transition-colors group-focus-within:text-[#020617]">
+                <Search size={24} />
+              </div>
+              <Input
+                value={ticketId}
+                onChange={(e) => setTicketId(e.target.value)}
+                placeholder="กรอกรหัส (เช่น JPV-001245)"
+                disabled={isPending}
+                className="h-24 rounded-none border-[4px] border-[#020617] pl-16 font-mono text-3xl transition-all placeholder:italic placeholder:text-slate-200 focus-visible:bg-slate-50 focus-visible:ring-0"
+              />
+              {!isPending && ticketId && (
+                <button
+                  type="submit"
+                  className="absolute right-6 top-1/2 -translate-y-1/2 bg-[#020617] p-3 text-[#FCDE09] shadow-[6px_6px_0px_0px_rgba(0,0,0,0.1)] transition-all hover:bg-[#FCDE09] hover:text-[#020617] active:translate-x-1 active:translate-y-1 active:shadow-none"
+                >
+                  <ArrowRight size={28} strokeWidth={3} />
+                </button>
+              )}
+            </div>
+          </div>
 
-            {/* 🛠️ FOOTER_STATS: ข้อมูลเชิงเทคนิค (Integrity Metadata) */}
-            <div className="flex flex-col justify-between gap-6 font-mono text-[10px] font-bold uppercase tracking-tighter text-slate-400 sm:flex-row sm:items-center">
+          <Button
+            type="submit"
+            disabled={isPending || !ticketId}
+            className="group h-24 w-full rounded-none bg-[#020617] text-2xl font-black uppercase italic tracking-[0.2em] text-[#FCDE09] transition-all hover:bg-[#1E293B] disabled:opacity-30"
+          >
+            {isPending ? (
               <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 bg-slate-50 px-3 py-1">
-                  <Activity size={12} className="text-green-500" />
-                  <span>Protocol: {documentData.protocol || 'SSL_SECURE_V4'}</span>
-                </div>
-                <span className={isVerified ? "text-green-600" : "text-red-600"}>
-                  Integrity: {isVerified ? 'VERIFIED' : 'FAILED'}
-                </span>
+                <Loader2 className="animate-spin" size={32} />
+                <span>Authenticating...</span>
               </div>
-              <div className="flex items-center gap-2">
-                <span>Verification_Time:</span>
-                <span className="text-slate-900">{new Date().toISOString().replace('T', ' ').slice(0, 19)}</span>
-              </div>
+            ) : (
+              <span className="flex items-center gap-4 transition-transform group-hover:scale-105">
+                Initialize_Audit_Sequence
+              </span>
+            )}
+          </Button>
+        </form>
+
+        {/* 📜 COMPLIANCE_STAMP */}
+        <div className="relative mt-14 border-t-2 border-[#020617]/10 pt-10">
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white px-4 text-[10px] font-black uppercase italic text-slate-300">
+            Integrity_Guarantee
+          </div>
+          <div className="flex items-start gap-5">
+            <div className="border border-slate-200 bg-slate-50 p-3">
+              <AlertCircle size={22} className="text-[#020617]" />
+            </div>
+            <div className="space-y-1.5">
+              <p className="text-[12px] font-black uppercase italic tracking-tight text-[#020617]">
+                Security_Compliance_Notice
+              </p>
+              <p className="text-[10px] font-medium uppercase leading-relaxed tracking-tighter text-slate-400">
+                ข้อมูลจะถูกตรวจสอบผ่านระบบเข้ารหัสความปลอดภัยสูง
+                และทุกการเข้าถึงจะถูกบันทึกเพื่อความ{' '}
+                <span className="font-bold text-[#020617]">ถูกต้อง</span> และ{' '}
+                <span className="underline decoration-[#FCDE09] decoration-2">ตรวจสอบได้</span> จริง
+              </p>
             </div>
           </div>
         </div>
-
-        {/* 📜 DISCLAIMER */}
-        <p className="mt-8 text-center text-[9px] font-bold uppercase leading-relaxed tracking-[0.2em] text-slate-300">
-          This document is electronically verified by JP VisualDocs Protocol. <br />
-          Any modification to this report will render the verification void and may lead to legal action.
-        </p>
-      </div>
+      </Card>
     </div>
   )
 }

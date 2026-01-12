@@ -22,7 +22,7 @@ const InputOTP = React.forwardRef<
     ref={ref}
     containerClassName={cn(
       'flex items-center gap-2 has-[:disabled]:opacity-50',
-      containerClassName
+      containerClassName,
     )}
     className={cn('disabled:cursor-not-allowed', className)}
     {...props}
@@ -43,7 +43,7 @@ const InputOTPSlot = React.forwardRef<
   React.ComponentPropsWithoutRef<'div'> & { index: number }
 >(({ index, className, ...props }, ref) => {
   const inputOTPContext = React.useContext(OTPInputContext)
-  
+
   // 🛡️ TYPE_GUARD: แก้ไขปัญหา TS18046 โดยการตรวจสอบ Context และทำ Type Assertion
   const slot = inputOTPContext?.slots[index] as SlotProps | undefined
 
@@ -56,17 +56,17 @@ const InputOTPSlot = React.forwardRef<
       ref={ref}
       className={cn(
         // 🏛️ BASE_STYLES: ดีไซน์ช่องกรอกแบบเหลี่ยมเข้มข้น
-        'relative flex h-14 w-12 items-center justify-center border-2 border-[#020617] bg-white text-xl font-black transition-all font-mono',
+        'relative flex h-14 w-12 items-center justify-center border-2 border-[#020617] bg-white font-mono text-xl font-black transition-all',
         // ⚡ ACTIVE_STATE: เน้นช่องที่กำลังกรอกด้วยสีเหลืองแบรนด์
         isActive && 'z-10 border-[#FCDE09] ring-2 ring-[#FCDE09]/20',
-        className
+        className,
       )}
       {...props}
     >
       {char}
       {hasFakeCaret && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="h-6 w-1 animate-caret-blink bg-[#020617] duration-1000" />
+          <div className="animate-caret-blink h-6 w-1 bg-[#020617] duration-1000" />
         </div>
       )}
     </div>

@@ -6,13 +6,11 @@ import { PostgrestSingleResponse } from '@supabase/supabase-js'
 
 /**
  * 🛰️ ACTION_PROTOCOL: VERIFY_DOCUMENT_IDENTITY
- * VERSION: 1.2.0 (Full_Strict_Type_Safe)
- * ✅ ROLE: ตรวจสอบความถูกต้องของเอกสารผ่านระบบฐานข้อมูลมาตรฐาน JP-VisualDocs
- * ✅ STRATEGY: Explicit_Type_Contract, Metadata_Integrity
+ * VERSION: 1.2.1 (Production_Ready_Integrity)
+ * ✅ ROLE: ตรวจสอบความถูกต้องและทำ Data Masking เพื่อความปลอดภัย
  * 📂 Location: app/actions/verify-actions.ts
  */
 
-// 🛡️ DEFINITION: โครงสร้าง Metadata ภายในฐานข้อมูล (Traceable Structure)
 interface DocumentMetadata {
   ticket_id?: string
   protocol_version?: string
@@ -20,7 +18,6 @@ interface DocumentMetadata {
   issuer_signature?: string
 }
 
-// 🛡️ DEFINITION: โครงสร้างข้อมูล Lead จาก Supabase
 interface LeadRecord {
   name: string
   category: string
@@ -42,49 +39,51 @@ export interface VerifyResponse {
   error?: string
 }
 
-/**
- * 🛰️ CORE_FUNCTION: ทำการตรวจสอบ Ticket ID กับฐานข้อมูลกลาง
- * แก้ไขปัญหา 'Unexpected any' (ESLint Error) อย่างสมบูรณ์
- */
+// 🛡️ HELPER: ฟังก์ชันสำหรับปิดบังข้อมูลส่วนบุคคล (PDPA Compliance)
+function maskName(name: string): string {
+  const parts = name.trim().split(' ')
+  if (parts.length < 1) return '***'
+
+  const mask = (s: string) => s[0] + 'x'.repeat(Math.max(s.length - 1, 3))
+
+  if (parts.length === 1) return mask(parts[0])
+  return `${mask(parts[0])} ${mask(parts[parts.length - 1])}`
+}
+
 export async function verifyDocumentAction(ticketId: string): Promise<VerifyResponse> {
   try {
-    // 1. Validation: ตรวจสอบความถูกต้องเบื้องต้นของ Input
     if (!ticketId || ticketId.trim() === '') {
       return { success: false, error: 'MISSING_TICKET_ID' }
     }
 
     const supabase = await createClient()
 
-    /**
-     * 🔍 QUERY_STRATEGY: JSONB_CONTAINMENT
-     * ค้นหาข้อมูลโดยใช้เงื่อนไขภายในก้อน JSON เพื่อความปลอดภัยสูงสุด
-     */
+    // 🔍 QUERY: ค้นหาด้วย ticket_id ภายใน metadata
     const { data, error: dbError }: PostgrestSingleResponse<LeadRecord> = await supabase
       .from('leads')
       .select('name, category, status, metadata, created_at')
       .contains('metadata', { ticket_id: ticketId })
       .single()
 
-    // 2. Handling Response: หากไม่พบข้อมูลหรือเกิดข้อผิดพลาด
     if (dbError || !data) {
-      console.warn(`⚠️ VERIFY_ATTEMPT_FAILED: Invalid Token [${ticketId}]`)
       return { success: false, error: 'INVALID_TICKET_ID' }
     }
 
-    // 3. Status Mapping: แปลง Internal Status เป็น UI-Ready Status
+    // 🛡️ SECURITY_AUDIT: บันทึกประวัติการตรวจสอบ (Optional - สามารถเพิ่มตาราง audit_logs ได้)
+    // await supabase.from('audit_logs').insert({ action: 'VERIFY', target: ticketId })
+
     const mappedStatus = (dbStatus: string): 'verified' | 'pending' | 'rejected' => {
       const s = dbStatus.toLowerCase()
-      if (s === 'verified' || s === 'completed' || s === 'approved') return 'verified'
-      if (s === 'rejected' || s === 'invalid' || s === 'failed') return 'rejected'
+      if (['verified', 'completed', 'approved', 'active'].includes(s)) return 'verified'
+      if (['rejected', 'invalid', 'failed', 'expired'].includes(s)) return 'rejected'
       return 'pending'
     }
 
-    // 4. Traceable Response: ส่งออกข้อมูลที่ผ่านการตรวจสอบแล้ว
     return {
       success: true,
       documentData: {
         ticketId: data.metadata.ticket_id || ticketId,
-        owner: data.name,
+        owner: maskName(data.name), // ✅ ส่งข้อมูลที่ Mask แล้วออกไปเท่านั้น
         service: data.category,
         issuedAt: data.created_at,
         status: mappedStatus(data.status),
@@ -92,12 +91,7 @@ export async function verifyDocumentAction(ticketId: string): Promise<VerifyResp
       },
     }
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'UNKNOWN_SYSTEM_ERROR'
-    console.error('🚨 VERIFY_CRITICAL_FAILURE:', errorMessage)
-
-    return {
-      success: false,
-      error: 'SYSTEM_VERIFICATION_ERROR',
-    }
+    console.error('🚨 CRITICAL_FAILURE:', error)
+    return { success: false, error: 'SYSTEM_VERIFICATION_ERROR' }
   }
 }
