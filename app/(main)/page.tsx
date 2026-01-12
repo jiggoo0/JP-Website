@@ -1,25 +1,15 @@
 /** @format */
-
 import React, { Suspense } from 'react'
 import HeroVerify from '@/components/section/HeroVerify'
 import KnowledgeGrid from '@/components/section/KnowledgeGrid'
 import FAQSection from '@/components/section/FAQSection'
 import { Separator } from '@/components/ui/separator'
 
-/**
- * 🛰️ VIEW_PROTOCOL: LANDING_MASTER_HUB
- * VERSION: 1.6.1 (Integrity_Restored)
- * ✅ Strategy: จัดลำดับการเข้าถึงข้อมูลให้ถูกต้องและตรวจสอบได้ทันที
- * 📂 Location: app/(main)/page.tsx
- */
-
 export default function HomePage() {
   return (
     <div className="flex flex-col overflow-hidden font-thai">
-      {/* 🎯 ACTION_ZONE: การตรวจสอบระเบียบและเอกสาร (VerifyID)
-          ส่วนที่สร้างกระบวนการราบรื่นให้ผู้ใช้สามารถตรวจสอบสถานะได้ทันที */}
+      {/* 🎯 ACTION_ZONE: การตรวจสอบเอกสาร */}
       <section className="bg-white" aria-label="ส่วนตรวจสอบเอกสารระดับโปรโตคอล">
-        {/* ใช้ Suspense เพื่อให้มั่นใจว่า UI ตรวจสอบได้ไม่ติดขัดระหว่างโหลด */}
         <Suspense fallback={<div className="h-[600px] w-full animate-pulse bg-slate-50" />}>
           <HeroVerify />
         </Suspense>
@@ -29,9 +19,7 @@ export default function HomePage() {
         <Separator className="h-[2px] bg-slate-100/50" />
       </div>
 
-      {/* 📚 KNOWLEDGE_ZONE: คลังข้อมูลที่ผ่านการรับรองความถูกต้อง
-          ดึงข้อมูลจาก KnowledgeGrid เพื่อสร้างความไว้วางใจได้ในทุกขั้นตอน */}
-
+      {/* 📚 KNOWLEDGE_ZONE */}
       <section className="bg-[#F8FAFC] py-24" aria-label="คลังความรู้และระเบียบปฏิบัติ">
         <div className="container mx-auto px-4">
           <div className="mb-16 text-center">
@@ -48,13 +36,11 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* ส่วนแสดงรายการเอกสารสำคัญที่คัดกรองแล้ว */}
           <KnowledgeGrid />
         </div>
       </section>
 
-      {/* ❓ SUPPORT_ZONE: ศูนย์ช่วยเหลือที่ตรวจสอบได้ย้อนกลับ
-          เชื่อมโยงกับ FAQ ที่เป็นทางการเพื่อความถูกต้องของข้อมูลสนับสนุน */}
+      {/* ❓ SUPPORT_ZONE */}
       <section className="bg-white py-24" aria-label="ศูนย์ช่วยเหลือและคำถามที่พบบ่อย">
         <div className="container mx-auto px-4">
           <div className="mb-16 flex flex-col justify-between gap-4 border-b-4 border-[#020617] pb-8 md:flex-row md:items-end">
@@ -80,7 +66,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 🛡️ AUDIT_INDICATOR: ตอกย้ำความไว้วางใจได้ที่ท้ายหน้าหลัก */}
+      {/* 🛡️ AUDIT_INDICATOR */}
       <div className="container mx-auto border-t border-dashed border-slate-200 px-4 py-8">
         <div className="flex items-center justify-between opacity-30">
           <span className="font-mono text-[8px] uppercase tracking-[0.5em]">

@@ -3,22 +3,17 @@ import React from 'react'
 import { BookOpen, ListTree, Share2, Printer, ShieldCheck } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 
-/**
- * 🛰️ SYSTEM_PROTOCOL: WIKI_LAYOUT_ENGINE
- * ROLE: โครงสร้างหลักสำหรับหน้าคลังความรู้และคู่มือการใช้งาน
- * ✅ Strategy: จัดวางองค์ประกอบให้ค้นหาง่ายและตรวจสอบความถูกต้องได้ทันที
- */
-
 interface WikiLayoutProps {
   children: React.ReactNode
-  sidebar?: React.ReactNode // สำหรับใส่สารบัญ (Table of Contents)
-  infobox?: React.ReactNode // สำหรับใส่ข้อมูลสรุป (Quick Info)
+  sidebar?: React.ReactNode
+  infobox?: React.ReactNode
+  lastUpdated?: string // รับวันที่อัปเดตเป็น prop
 }
 
-export default function WikiLayout({ children, sidebar, infobox }: WikiLayoutProps) {
+export default function WikiLayout({ children, sidebar, infobox, lastUpdated }: WikiLayoutProps) {
   return (
     <div className="min-h-screen bg-[#FAFAF9] pb-20 font-thai">
-      {/* 🧭 NAVIGATION_BAR: แถบเครื่องมือช่วยสำหรับการอ่าน */}
+      {/* NAVIGATION_BAR */}
       <div className="sticky top-16 z-30 w-full border-y border-slate-200 bg-white/95 backdrop-blur-md">
         <div className="container mx-auto flex h-14 items-center justify-between px-4">
           <div className="flex items-center gap-3">
@@ -54,9 +49,12 @@ export default function WikiLayout({ children, sidebar, infobox }: WikiLayoutPro
 
       <div className="container mx-auto mt-10 px-4">
         <div className="flex flex-col gap-10 lg:flex-row">
-          {/* 📂 LEFT_SIDEBAR: สารบัญนำทาง */}
           {sidebar && (
-            <aside className="sticky top-32 hidden h-fit w-72 shrink-0 lg:block">
+            <aside
+              role="region"
+              aria-label="สารบัญเนื้อหา"
+              className="sticky top-32 hidden h-fit w-72 shrink-0 lg:block"
+            >
               <div className="mb-4 flex items-center justify-between px-2">
                 <div className="flex items-center gap-2 text-[#0F172A]">
                   <ListTree size={18} className="text-[#059669]" />
@@ -71,10 +69,8 @@ export default function WikiLayout({ children, sidebar, infobox }: WikiLayoutPro
             </aside>
           )}
 
-          {/* 📄 MAIN_ARTICLE: พื้นที่เนื้อหาหลัก */}
-          <main className="min-w-0 flex-1">
+          <main id="main-content" className="min-w-0 flex-1">
             <article className="relative overflow-hidden border border-slate-200 bg-white p-6 shadow-sm md:rounded-xl md:p-14">
-              {/* ตราประทับตรวจสอบความถูกต้อง (Watermark) */}
               <div className="pointer-events-none absolute right-0 top-0 opacity-[0.03]">
                 <ShieldCheck size={200} className="-mr-10 -mt-10" />
               </div>
@@ -85,13 +81,15 @@ export default function WikiLayout({ children, sidebar, infobox }: WikiLayoutPro
             </article>
           </main>
 
-          {/* 🏛️ RIGHT_SIDEBAR: ข้อมูลจำเพาะและสถานะระบบ */}
           {infobox && (
-            <aside className="w-full shrink-0 lg:w-80">
+            <aside
+              role="region"
+              aria-label="ข้อมูลสรุปและสถานะระบบ"
+              className="w-full shrink-0 lg:w-80"
+            >
               <div className="space-y-6 lg:sticky lg:top-32">
                 {infobox}
 
-                {/* สถานะการอัปเดตข้อมูล */}
                 <div className="rounded-lg border border-slate-100 bg-white p-5 shadow-sm">
                   <h4 className="mb-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                     ข้อมูลการยืนยัน
@@ -103,7 +101,9 @@ export default function WikiLayout({ children, sidebar, infobox }: WikiLayoutPro
                     </p>
                     <p className="flex items-center justify-between text-[11px] text-slate-500">
                       <span>อัปเดตล่าสุด:</span>
-                      <span>{new Date().toLocaleDateString('th-TH')}</span>
+                      <span>
+                        {lastUpdated ? new Date(lastUpdated).toLocaleDateString('th-TH') : '-'}
+                      </span>
                     </p>
                     <p className="flex items-center justify-between text-[11px] text-slate-500">
                       <span>ความปลอดภัย:</span>
